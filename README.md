@@ -19,12 +19,12 @@ We provide a demo video highlighting found vulnerabilities’ impact on smart ho
 We filed several vulnerability reports to the US CERT/CC division in order to work with the  respective chipsets and device manufacturers to fix and mitigate the threats that we discovered. 
 
 Below are the CVE references:
-https://kb.cert.org/vuls/id/142629
-https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-9057
-https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-9058
-https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-9059
-https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-9060
-https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-10137
+1. https://kb.cert.org/vuls/id/142629
+2. https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-9057
+3. https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-9058
+4. https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-9059
+5. https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-9060
+6. https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-10137
 
 
 >[How to stop the attacks?]
