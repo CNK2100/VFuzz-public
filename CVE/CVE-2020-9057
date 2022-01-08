@@ -1,0 +1,76 @@
+> [Vulnerability description]
+
+Z-Wave devices with chipset 100, 200, and 300 series 
+are vulnerable to command injection vulnerability, 
+which may allow a remote, unauthenticated attacker 
+to send arbitrary packets to  a vulnerable device. 
+By sending a specially-crafted Z-Wave packet to a vulnerable device, a remote, 
+unauthenticated attacker may be able to totally control it and  cause denial of service. 
+Moreover, exploitation of this vulnerability can enable a  Man-in-the-middle attacker to 
+sniff the Z-Wave network traffic and replay it back successfully to a vulnerable device. 
+Affected products include all Z-Wave smart home devices with chipset 100, 200, and 300. 
+This vulnerability is due to the missing encryption (CWE-311) implementation in these chipsets. 
+This vulnerability cannot be fixed by firmware upgrade as it is an issue with the Z-Wave specification 
+for legacy chipset. To protect against this vulnerability consumers should upgrade to secure devices running 
+on  500 or 700 chipsets that support Security 2 (S2) encryption.  
+------------------------------------------
+
+> [Additional Information]
+
+With the use of tools and transceivers that can decode Z-Wave frame( e.g., Scapy-radio with HackRF One;
+Yard Stick One; RFCat ; RTL-SDR; Zniffer with Sigma UZB) an attacker sniffs and captures any Z-Wave 
+communication of a target Z-Wave smart home. Then he retrieves the Z-Wave HomeID and NodeID of devices 
+that are transmiting packets in the network. With the knowledge of the HomeID, the attacker can brute force 
+the Z-Wave network to know all remaining available smart devices in the network. This is achieved by sending
+to all possible Z-Wave node (2 to 232) either these Z-Wave frames: No Operation (NOP), SWITCH_BINARY_GET,
+or Node Information (NIF) to get the acknowledgement (ACK) from non-authenticated devices. 
+For authenticated devices the attacker will send Node Information (NIF), SECURITY_NONCE_GET, 
+and SECURITY_2_NONCE_GET. From this ACK the attacker retrieves the node ID of devices that responded and 
+their NIF capabilities. With the knowledge of the Z-Wave HomeID, NIF, and NodeID of the device, 
+the attacker crafts a Z-Wave packet with a desired command as payload and sends it to the target device 
+by using a customized Z-Wave packet management software and  HackRF One, or  Yard Stick One,  RFCat, or CC1110. 
+The device will accept and validate the packet. 
+------------------------------------------
+
+> [How does an attacker exploit this vulnerability ?]
+
+Attacker and target device need to be within a range of 30 meters. 
+The range can be increased by using an advanced Software-Defined Radio (SDR) hardware.
+------------------------------------------
+
+> [What is the impact of this vulnerability ?]
+
+ Total control of the device and DoS.
+------------------------------------------
+
+> [Vendor of Product]
+  Sigma Design and Silicon Labs
+------------------------------------------
+
+> [Affected Product Code Base]
+  Z Wave devices with chipsets 100, 200, and 300 Series.
+------------------------------------------
+
+> [Affected Component]
+  Enable and disable all device functionalities.
+------------------------------------------
+ 
+> [Attack Type]
+  Proximate remote attack
+------------------------------------------
+
+>[Impact Denial of Service]
+ True
+------------------------------------------
+
+> [Attack Vectors]
+  By crafting a valid Z-Wave frame and sending it to the device.  
+------------------------------------------
+ 
+> [Reference]
+  https://www.silabs.com/products/development-tools/software/z-wave
+  https://github.com/OpenZWave
+  https://www.silabs.com/documents/login/miscellaneous/SDS13784-Z-Wave-Network-Protocol-Command-Class-Specification.pdf
+------------------------------------------ 
+> [Discoverer]
+  CNK CCSLab
