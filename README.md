@@ -29,7 +29,8 @@ Below are the CVE references:
 3. https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-9058
 4. https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-9059
 5. https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-9060
-6. https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-10137
+6. https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-9061
+7. https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-10137
 
 
 >How to stop the attacks?
