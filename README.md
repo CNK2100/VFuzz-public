@@ -8,15 +8,16 @@ VFuzz is a fuzzing approach for finding vulnerabilities in the Z-Wave smart home
 
 Depending on the chipset and device, an attacker within Z-Wave radio range can deny service, cause devices to crash, deplete batteries, intercept, observe, and replay traffic, and control vulnerable devices.
 
+>Demo video of found vulnerabilities' impact
+
+We provide a demo video highlighting found vulnerabilities’ impact on smart home devices at https://www.youtube.com/watch?v=RdVWxwg3FIE&ab_channel=C.
+
 >Journal paper
 
 VFuzz details, implementations, and experimental results are available in our paper published in IEEE Access Journal at https://ieeexplore.ieee.org/document/9663293.
 
 C. K. Nkuba, S. Kim, S. Dietrich and H. Lee, "Riding the IoT Wave With VFuzz: Discovering Security Flaws in Smart Homes," in IEEE Access, vol. 10, pp. 1775-1789, 2022, doi: 10.1109/ACCESS.2021.3138768.
 
->Demo video of found vulnerabilities' impact
-
-We provide a demo video highlighting found vulnerabilities’ impact on smart home devices at https://www.youtube.com/watch?v=RdVWxwg3FIE&ab_channel=C.
 
 >Responsible disclosure
 
