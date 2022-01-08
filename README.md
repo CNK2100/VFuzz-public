@@ -10,7 +10,7 @@ VFuzz details, implementations, and experimental results are available in our pa
 
 C. K. Nkuba, S. Kim, S. Dietrich and H. Lee, "Riding the IoT Wave With VFuzz: Discovering Security Flaws in Smart Homes," in IEEE Access, vol. 10, pp. 1775-1789, 2022, doi: 10.1109/ACCESS.2021.3138768.
 
->Demo video of vulnerability impact
+>Demo video of found vulnerabilities' impact
 
 We provide a demo video highlighting found vulnerabilities’ impact on smart home devices at https://www.youtube.com/watch?v=RdVWxwg3FIE&ab_channel=C.
 
