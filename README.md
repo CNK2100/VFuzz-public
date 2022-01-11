@@ -10,7 +10,7 @@ Depending on the chipset and device, an attacker within Z-Wave radio range can d
 
 >Demo video of found vulnerabilities' impact
 
-We provide a demo video highlighting found vulnerabilities’ impact on smart home devices at https://www.youtube.com/watch?v=RdVWxwg3FIE&ab_channel=C.
+We provide a demo video highlighting found vulnerabilities’ impact on smart home devices at https://ieeexplore.ieee.org/document/9663293 below the Abstract.
 
 >Journal paper
 
