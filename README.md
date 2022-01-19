@@ -34,6 +34,7 @@ Below are the CVE references:
 
 
 >How to stop the attacks?
+
 Z-Wave devices with 100, 200, 300 series chipsets are one-time-programmable and cannot be updated to fix the vulnerabilities. For the above-listed devices, we are developing an intrusion detection system to mitigate these external attacks.
 
 For devices with 500 and 700 chipset series, the above-mentioned vulnerabilities can be mitigated through firmware updates.
@@ -42,7 +43,9 @@ We also advise house owners to have a diversified set of smart home devices with
 
 
 >Ethical considerations
+
 The VFuzz public version WILL provide source code for core Z-Wave fuzzing functionalities while reducing advanced features that could be misused by bad actors to attack smart home devices. For the same ethical considerations, we are not releasing the VFuzz PoC exploit code.
 
 >About
+
 This repository is maintained by Carlos Nkuba. For reporting bugs, you can submit an issue to the GitHub repository.
