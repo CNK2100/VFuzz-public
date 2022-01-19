@@ -16,19 +16,20 @@ Mutation operators have been reduced to Random ONLY.
 
 
 Requirements:
-
+```
 sudo apt-get update
 sudo apt-get upgrade
 sudo apt-get install python  ## For Pyton 2
+```
 
 ##Install RFCAT
 ## https://github.com/atlas0fd00m/rfcat
 
+```
 sudo apt-get install libusb-1.0-0-dev
 sudo apt-get install python-pip
 sudo apt install python-usb libusb-1.0.0 make
 sudo apt-get install libusb-1.0-0-dev
-
 sudo apt install python-pydot python-pydot-ng graphviz
 sudo apt-get install ipython
 sudo apt-get install git
@@ -39,13 +40,20 @@ pip install bitstring
 pip install psutil
 pip install requests
 sudo apt install sdcc
+```
 
 
-Run VFuzz:
-
+Run VFuzz: 
+```
 sudo python ./vufzz.py
+```
 
-STOP VFUZZ: CTRL + Z
+STOP VFUZZ: 
+```
+CTRL + Z
+```
+
+
 
 
 
