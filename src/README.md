@@ -14,16 +14,18 @@ dongle.
 Mutation operators have been reduced to Random ONLY.
 
 
+>Hardware:
 
-Requirements:
+VFuzz-Public runs on YardStick One (https://greatscottgadgets.com/yardstickone/)
+or Any sub-gigahertz dongle supporting RFCat library.
+
+>Requirements:
+
 ```
 sudo apt-get update
 sudo apt-get upgrade
-sudo apt-get install python  ## For Pyton 2
+sudo apt-get install python  ## For Python 2
 ```
-
-##Install RFCAT
-## https://github.com/atlas0fd00m/rfcat
 
 ```
 sudo apt-get install libusb-1.0-0-dev
@@ -43,18 +45,22 @@ sudo apt install sdcc
 ```
 
 
-Run VFuzz: 
+>Install RFCAT at https://github.com/atlas0fd00m/rfcat
+
+
+
+
+>Run VFuzz:
+
 ```
-sudo python ./vufzz.py
+sudo python ./vfuzz.py
 ```
 
-STOP VFUZZ: 
+>STOP VFUZZ:
+
 ```
 CTRL + Z
 ```
-
-
-
 
 
 

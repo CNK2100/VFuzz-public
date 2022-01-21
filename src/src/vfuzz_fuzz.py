@@ -87,10 +87,24 @@ log_file_name = "./logs/log_fuzzTesting.wfl"
 
 """ TESTing DEVICE Availability"""
 global is_crash, deviceAck, frames, thread, threadX
-global deviceState
-is_crash = None
+
+""" TestAndCheck"""
+global timeout
+global  deviceState
+global deviceAck
+global frames
+global debug2
+global fileout
+
+is_crash = True  ### to modify
+timeout = 3  ##  Test for 5 seconds
+device_State = True
 deviceAck = None
 frames = None
+fileout = 1
+debug2 = 0
+
+is_crash = None
 thread = None
 threadX = None
 testcase = None
@@ -218,6 +232,7 @@ def testAndCheck(): ### Monitor for one dongle
     global homeID, nodeID
     global d_homeID, d_nodeID
     global debug
+
     global fileout
     global nop
     global deviceAck
@@ -225,44 +240,62 @@ def testAndCheck(): ### Monitor for one dongle
     global txcount
     global log_file_received
     global result_available
-    d_header = "\x41\x01"
     global thread
     global ercount
 
     # YardStick Dongles
     global d1, d2
 
-    debug = 0
-    debug2 = 0
-    fileout = 0
-    fuzztesting = True
+    global timeout
+    global  deviceState
+    global deviceAck
+    global frames
+    global debug2
+    global fileout
+
     is_crash = True  ### to modify
     device_State = True
+    deviceAck = None
+    frames = None
+    # fileout = 1
+    # debug2 = 0
+
+
+
+
+    # debug = 0
+    # debug2 = 0
+    # fileout = 0
+    # fuzztesting = True
+
+    # nop = generatePacket(d_homeID, 0x01, d_nodeID, '\x00')
+    # d_header = "\x41\x01"
+    # timeout = 5  ##  Test for 3 seconds
+
 
     if debug: print "Monitoring device State"
 
     """ Set the device in Idle mode"""
 
     t1 = time.time()
-    timeout = 3  ##  Test for 3 seconds
+    timeout = 5  ##  Test for 5 seconds
 
-    deviceAck = None
-    frames = None
-    nop = generatePacket(d_homeID, 0x01, d_nodeID, '\x00')
+
     d1.setModeTX()  # Enter the right mode first...
     time.sleep(0.025)
     d1.RFxmit(invert(nop))
-    # WITHOUT THIS YOU WILL GET USB TIMEOUTS!
-    d1.setModeIDLE()
+
+    d1.setModeIDLE() # WITHOUT THIS YOU WILL GET USB TIMEOUTS!
 
     while time.time() - t1 < timeout:
+    # while True:
         # time.sleep(0.025)
 
         try:
             global frame_nb
             payload = ""
-            deviceAck = None
-            fileout = 1
+            # deviceAck = None
+            # fileout = 1
             d1.RFxmit(invert(nop))
             d1.setModeRX()
             deviceAck = d1.RFrecv(10)[0]
@@ -303,12 +336,14 @@ def testAndCheck(): ### Monitor for one dongle
                     device_State = False
                     # return device_State
                     break
-                else:
+                elif deviceAck ==None:
                     logInterestingTestcase = open("logs/interestingTestCase.txt", "w")
                     logInterestingTestcase.write("Interesting test cases: \n")
                     logInterestingTestcase.write("Raw sent packet: "+ str(pkt)) ## Log interesting packet to file
                     logInterestingTestcase.close()
                     break
+                # else:
+                #     break
 
         except ChipconUsbTimeoutException:
             pass
@@ -320,6 +355,7 @@ def testAndCheck(): ### Monitor for one dongle
             d1.setModeIDLE()  ### Avoid USB TIMEOUT
             sys.exit("Error %s" % str(e))
     # d1.setModeIDLE()  ###Avoid USB TIMEOUT
+    d1.setModeIDLE() ## to check
     return device_State
 
 
@@ -492,6 +528,7 @@ def mutate(homeid, nodeid, verb, dongle1, dongle2):
 
 
     log_file_received = "./logs/log_received_{0}_{1}_{2}_{3}-{4}-{5}-{6}.wfl".format(year, month, day, hour, minute, second,microsecond)
+
 
 
     nop = generatePacket(d_homeID, 0x01, d_nodeID, '\x00')
