@@ -19,7 +19,7 @@
 __author__ = "Carlos Nkuba"
 __copyright__ = "Copyright 2021, CCSLab Korea University"
 __credits__ = "https://ieeexplore.ieee.org/abstract/document/9663293/"
-__license__ = ""
+__license__ = "https://ieeexplore.ieee.org/abstract/document/9663293/"
 __version__ = "Public v1.0.1"
 __maintainer__ = "Carlos Nkuba"
 __email__ = "use GitHub to provide an Issue"
