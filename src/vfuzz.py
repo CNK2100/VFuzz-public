@@ -124,7 +124,7 @@ def cleanupDongleFinal(d):
         pass
     else:
         # Resetting the First Dongle
-        d.setModeIDLE()  ## Create Error
+        d.setModeIDLE()  ##
         d.cleanup()
         d.RESET()
 
