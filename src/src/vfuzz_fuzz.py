@@ -179,6 +179,7 @@ def generatePacket(homeid, src, dst, pld):
 
     # construct frame
     pkt = _homeid + _src + d_header + d_lenght + _dst + _pld + d_checksum
+    # print "NOP Data to send :", pkt.encode("hex")
 
     if debug == 1:
         print "Data to send :", pkt.encode("hex")
@@ -525,6 +526,8 @@ def mutate(homeid, nodeid, verb, dongle1, dongle2):
                                                                                      second, microsecond)
 
     nop = generatePacket(d_homeID, 0x01, d_nodeID, '\x00')
+    # print nop
+    # print "NOP Data to send :", nop.encode("hex")
 
     """ FUZZING LOOP STARTS with Mutation """
 
