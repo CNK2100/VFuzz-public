@@ -4,7 +4,8 @@ This is the configuration file for VFuzz.
 """
 
 # Z-Wave home ID to fuzz in Hexadecimal
-homeid =0xF8A86B6B
+# homeid =0xF8A86B6B
+homeid =0xCB95A34A
 
 # Z-Wave Target device node ID in Hexadecimal
 nodeid =0x02 

@@ -23,9 +23,6 @@ __maintainer__ = "Carlos Nkuba"
 __email__ = "use GitHub to provide an Issue"
 __status__ = "VFuzz Public REDUCED VERSION Release"
 
-
-
-
 import subprocess as sp
 import fuzzer_config
 import zwaveUtil
@@ -34,7 +31,6 @@ import datetime
 from datetime import datetime
 from threading import RLock
 import sys
-
 
 try:
     from rflib import *
@@ -47,8 +43,6 @@ except ImportError:
 
 # RF Dongle variables
 global d1, d2, debug
-
-
 
 # Fuzzer variables
 global rxcount, txcount, ercount
@@ -90,7 +84,7 @@ global is_crash, deviceAck, frames, thread, threadX
 
 """ TestAndCheck"""
 global timeout
-global  deviceState
+global deviceState
 global deviceAck
 global frames
 global debug2
@@ -127,7 +121,6 @@ microsecond = datetime.today().microsecond
 starting_time = "{0}-{1}-{2} {3}:{4}:{5}.{6}".format(year, month, day, hour, minute, second, microsecond)
 
 
-
 def load_file(fname):
     with open(fname, "rb") as f:
         return bytearray(f.read())
@@ -142,12 +135,12 @@ def save_file_all(fname, data):
     with open(fname, "a") as f:
         f.write(str(data))
 
+
 def checksum(data):
     b = 255
     for i in range(2, len(data)):
         b ^= int(data[i].encode("hex"), 16)
     return format(b, '02x').decode("hex")
-
 
 
 def post_build_pkt(d_SrcNode, d_nodeID, d_payload):
@@ -160,18 +153,21 @@ def post_build_pkt(d_SrcNode, d_nodeID, d_payload):
     d_lenght = format(d_lenght, '02x')
     d_lenght = d_lenght.decode("hex")
     ## Generate Checksum
-    d_checksum = checksum(d_init + format(d_homeID,'02x').decode("hex") + d_SrcNode + d_header + d_lenght + d_nodeID  + d_payload)
-    pktToSend = format(d_homeID,'02x').decode("hex") + d_SrcNode + d_header + d_lenght + d_nodeID + d_payload + d_checksum
+    d_checksum = checksum(
+        d_init + format(d_homeID, '02x').decode("hex") + d_SrcNode + d_header + d_lenght + d_nodeID + d_payload)
+    pktToSend = format(d_homeID, '02x').decode(
+        "hex") + d_SrcNode + d_header + d_lenght + d_nodeID + d_payload + d_checksum
     return pktToSend
+
 
 def generatePacket(homeid, src, dst, pld):
     global debug
     global d_init, d_header
     global d_homeID
     ## Encording
-    _homeid = format(homeid,'02x').decode("hex")
-    _src = format(src,'02x').decode("hex")
-    _dst = format(dst,'02x').decode("hex")
+    _homeid = format(homeid, '02x').decode("hex")
+    _src = format(src, '02x').decode("hex")
+    _dst = format(dst, '02x').decode("hex")
     _pld = pld
     ## Generate length
     d_lenght = len(_pld) + len(_homeid) + len(d_header) + 4  # 4=srcid+ 2bytes init + len
@@ -187,7 +183,6 @@ def generatePacket(homeid, src, dst, pld):
     if debug == 1:
         print "Data to send :", pkt.encode("hex")
     return pkt
-
 
 
 def send_vfuzz(pkt):
@@ -212,11 +207,13 @@ def send_vfuzz(pkt):
         sys.exit("Error %s" % str(e))
         return
 
+
 def invert(data):
     datapost = ''
     for i in range(len(data)):
         datapost += chr(ord(data[i]) ^ 0xFF)
     return datapost
+
 
 def calculateChecksum(data):
     checksum = 0xff
@@ -225,7 +222,7 @@ def calculateChecksum(data):
     return checksum
 
 
-def testAndCheck(): ### Monitor for one dongle
+def testAndCheck():  ### Monitor for one dongle
     global is_crash
     global fuzztesting
     # global is_crash2
@@ -247,7 +244,7 @@ def testAndCheck(): ### Monitor for one dongle
     global d1, d2
 
     global timeout
-    global  deviceState
+    global deviceState
     global deviceAck
     global frames
     global debug2
@@ -260,9 +257,6 @@ def testAndCheck(): ### Monitor for one dongle
     # fileout = 1
     # debug2 = 0
 
-
-
-
     # debug = 0
     # debug2 = 0
     # fileout = 0
@@ -272,7 +266,6 @@ def testAndCheck(): ### Monitor for one dongle
     # d_header = "\x41\x01"
     # timeout = 5  ##  Test for 3 seconds
 
-
     if debug: print "Monitoring device State"
 
     """ Set the device in Idle mode"""
@@ -280,15 +273,14 @@ def testAndCheck(): ### Monitor for one dongle
     t1 = time.time()
     timeout = 5  ##  Test for 5 seconds
 
-
     d1.setModeTX()  # Enter the right mode first...
     time.sleep(0.025)
     d1.RFxmit(invert(nop))
 
-    d1.setModeIDLE() # WITHOUT THIS YOU WILL GET USB TIMEOUTS!
+    d1.setModeIDLE()  # WITHOUT THIS YOU WILL GET USB TIMEOUTS!
 
     while time.time() - t1 < timeout:
-    # while True:
+        # while True:
         # time.sleep(0.025)
 
         try:
@@ -299,8 +291,17 @@ def testAndCheck(): ### Monitor for one dongle
             d1.RFxmit(invert(nop))
             d1.setModeRX()
             deviceAck = d1.RFrecv(10)[0]
+            # print("\nBrut ACK: " + deviceAck)
+            # print("\nBrut Converted into hex: " + deviceAck.encode("hex"))
+
             d1.setModeIDLE()
             deviceAck = invert(deviceAck)
+            # print("\nAfter inversion: " + deviceAck)
+            # print("\n After inversion Converted into hex: " + deviceAck.encode("hex"))
+            # ## Selecting only first 10 bytes
+            # deviceAck = deviceAck[0:10]
+            # print("\n 10 First Bytes: " + deviceAck.encode("hex"))
+
 
             """Testing device Status"""
             # send_corefuzzRaw(nop)
@@ -312,13 +313,13 @@ def testAndCheck(): ### Monitor for one dongle
                 # Decode Zwave frame
                 HomeID = deviceAck[0:8]
                 SrcNode = deviceAck[8:10]
-                FrameControl1 = deviceAck[10:12] ### ACK Header is 0x03
+                FrameControl1 = deviceAck[10:12]  ### ACK Header is 0x03
                 FrameControl1 = deviceAck[12:14]
                 Length = deviceAck[14:16]
                 DstNode = deviceAck[16:18]
                 # payload = res[18:]  ### ACK Frame do not have payload
                 crc = deviceAck[18:20]
-                if Length == "0a" and SrcNode == format(d_nodeID,'02x'):  # ACK frame
+                if Length == "0a" and SrcNode == format(d_nodeID, '02x'):  # ACK frame
                     if debug: print "	ACK response from " + SrcNode + " to " + DstNode
 
                     if debug2: print " \n	ACK response from " + SrcNode + " to " + DstNode
@@ -327,7 +328,8 @@ def testAndCheck(): ### Monitor for one dongle
                         logAckFile.write("Log of Last received ACK from Target device while sending Z-Wave NOP frame\n")
                         logAckFile.write("Raw ACK Value: " + deviceAck)
                         logAckFile.write("\nACK_No: " + str(
-                            txcount) + "  |  " + "Timestp: " + datetime.now().strftime('%Y-%m-%d %H:%M:%S') + "  |  " +"HomeID: " + HomeID + "  |  " + "Src: " + SrcNode + "  |  " +"Dst: " + DstNode + "  |  " +"CRC: " + crc)
+                            txcount) + "  |  " + "Timestp: " + datetime.now().strftime(
+                            '%Y-%m-%d %H:%M:%S') + "  |  " + "HomeID: " + HomeID + "  |  " + "Src: " + SrcNode + "  |  " + "Dst: " + DstNode + "  |  " + "CRC: " + crc)
                         logAckFile.write(
                             "\n-----------------------------------------------------------------------------------------------------------------------------------------------------")
                         logAckFile.close()
@@ -336,10 +338,10 @@ def testAndCheck(): ### Monitor for one dongle
                     device_State = False
                     # return device_State
                     break
-                elif deviceAck ==None:
+                elif deviceAck == None:
                     logInterestingTestcase = open("logs/interestingTestCase.txt", "w")
                     logInterestingTestcase.write("Interesting test cases: \n")
-                    logInterestingTestcase.write("Raw sent packet: "+ str(pkt)) ## Log interesting packet to file
+                    logInterestingTestcase.write("Raw sent packet: " + str(pkt))  ## Log interesting packet to file
                     logInterestingTestcase.close()
                     break
                 # else:
@@ -355,9 +357,8 @@ def testAndCheck(): ### Monitor for one dongle
             d1.setModeIDLE()  ### Avoid USB TIMEOUT
             sys.exit("Error %s" % str(e))
     # d1.setModeIDLE()  ###Avoid USB TIMEOUT
-    d1.setModeIDLE() ## to check
+    d1.setModeIDLE()  ## to check
     return device_State
-
 
 
 class Printer():
@@ -385,7 +386,7 @@ def save_log_funtion(txcount, pkt, testcase, is_crash):
     log_file = open(log_file_name, "a")
     log_file.write("\t\t{")
     log_file.write("\"no\" : {0},".format(txcount))
-    log_file.write("Timestp: " + datetime.now().strftime('%Y-%m-%d %H:%M:%S')+",")
+    log_file.write("Timestp: " + datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ",")
     if is_crash:
         log_file.write("\"crash\" : \"y\",")
         log_file.write("\"Payload\" : {")
@@ -411,8 +412,9 @@ def console_output_function(i, testcase, pkt, verbose_vfuzz):
         Printer(toPrint)
         """ Scapy Packet visualization from: https://scapy.readthedocs.io/en/latest/usage.html """
     else:
-        toPrint ="      [*] Pkt#:" + str(i) + " " + pkt
+        toPrint = "      [*] Pkt#:" + str(i) + " " + pkt
         Printer(toPrint)
+
 
 def cleanupDongle(d):
     global d1, d2
@@ -424,7 +426,6 @@ def cleanupDongle(d):
         d.setModeIDLE()  ## Create Error
 
     return
-
 
 
 def fuzzing_summary():
@@ -461,10 +462,7 @@ def fuzzing_summary():
     print "----------------------------------------------------------------------"
 
 
-
-
 def mutate(homeid, nodeid, verb, dongle1, dongle2):
-
     global d1, d2
     global homeID, NodeID
     global d_homeID, d_nodeID
@@ -472,7 +470,6 @@ def mutate(homeid, nodeid, verb, dongle1, dongle2):
     d_nodeID = nodeid
     d1 = dongle1
     d2 = dongle2
-
 
     global year, month, day, hour, minute, second, microsecond, starting_time
     global start_time_all
@@ -501,18 +498,16 @@ def mutate(homeid, nodeid, verb, dongle1, dongle2):
     ercount = 0
     error = 0
 
-
     global is_crash
     global testcase
 
     clearScreen
 
-
     """logging information for crash"""
 
     log_file_name = "./logs/log_fuzzTesting.wfl".format(year, month, day, hour, minute,
-                                                                                    second,
-                                                                                    microsecond)
+                                                        second,
+                                                        microsecond)
     log_file = open(log_file_name, "w")
     save_file_all(log_file_name, "{\n")
     save_file_all(log_file_name, "\t\"ToolVer\" : \"{0}\",\n".format(tool_version))
@@ -526,13 +521,10 @@ def mutate(homeid, nodeid, verb, dongle1, dongle2):
     save_file_all(log_file_name, "\t\"packet\" : [\n")
     log_file.close()
 
-
-    log_file_received = "./logs/log_received_{0}_{1}_{2}_{3}-{4}-{5}-{6}.wfl".format(year, month, day, hour, minute, second,microsecond)
-
-
+    log_file_received = "./logs/log_received_{0}_{1}_{2}_{3}-{4}-{5}-{6}.wfl".format(year, month, day, hour, minute,
+                                                                                     second, microsecond)
 
     nop = generatePacket(d_homeID, 0x01, d_nodeID, '\x00')
-
 
     """ FUZZING LOOP STARTS with Mutation """
 
@@ -540,14 +532,12 @@ def mutate(homeid, nodeid, verb, dongle1, dongle2):
     print
     print "[*] Phase 2 : Fuzz Testing "
 
-
     try:
         testModetime = fuzzer_config.timeout_field_Mut
         t1 = time.time()
         deviceState = False
 
         """ TESTING """
-
 
         is_crash = False
 
@@ -560,7 +550,7 @@ def mutate(homeid, nodeid, verb, dongle1, dongle2):
 
         test = None
         """DEVICE INITIAL TESTING PHASE """
-        test = testAndCheck() ## Use this if testing with ONLY one Yardstick one
+        test = testAndCheck()  ## Use this if testing with ONLY one Yardstick one
         if test is True:
             print ("\n[!] Device Unavailable !!")
             return
@@ -590,7 +580,7 @@ def mutate(homeid, nodeid, verb, dongle1, dongle2):
                 test = None
                 # time.sleep(0.025)## remove
                 """DEVICE SECOND TESTING  """
-                test = testAndCheck() ## For one dongle
+                test = testAndCheck()  ## For one dongle
                 # time.sleep(0.025)
                 if test is False:
                     send_vfuzz(pkt.postbuild_Pkt())
@@ -604,7 +594,7 @@ def mutate(homeid, nodeid, verb, dongle1, dongle2):
 
                     save_log_funtion(txcount, str(pkt), testcase, is_crash)
                     print
-                    print("\n[!] Target Device ID: " + str(hex(d_nodeID))+ " is NOT available")
+                    print("\n[!] Target Device ID: " + str(hex(d_nodeID)) + " is NOT available")
                     break
 
             print("\n Done ")
@@ -624,6 +614,3 @@ def mutate(homeid, nodeid, verb, dongle1, dongle2):
         print ("Error Found !")
         print(e)
         sys.exit(0)
-
-
-

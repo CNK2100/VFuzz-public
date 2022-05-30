@@ -24,12 +24,13 @@ __maintainer__ = "Carlos Nkuba"
 __email__ = "use GitHub to provide an Issue"
 __status__ = "VFuzz Public REDUCED VERSION Release"
 
-
+import os
 
 """ Libraries import"""
 
 import atexit
 import subprocess as sp
+import time
 import datetime
 from datetime import datetime
 import string
@@ -39,6 +40,7 @@ from sys import exit
 from src.vfuzz_fuzz import mutate, fuzzing_summary
 from src.initialTest import initialTestingPhase
 import fuzzer_config
+# from rflib import *
 
 try:
     from rflib import *
@@ -297,10 +299,10 @@ def main():
     # global clearScreen
     global args
 
-    if os.getuid() != 0:
-        print
-        print("Please run the program as Super-User \'sudo\' ")
-        sys.exit(1)
+    # if os.getuid() != 0:
+    #     print
+    #     print("Please run the program as Super-User \'sudo\' ")
+    #     sys.exit(1)
 
     if not os.path.exists("./logs"):
         os.makedirs("./logs")

@@ -31,7 +31,6 @@ sudo apt-get install python  ## For Python 2
 sudo apt-get install libusb-1.0-0-dev
 sudo apt-get install python-pip
 sudo apt install python-usb libusb-1.0.0 make
-sudo apt-get install libusb-1.0-0-dev
 sudo apt install python-pydot python-pydot-ng graphviz
 sudo apt-get install ipython
 sudo apt-get install git
