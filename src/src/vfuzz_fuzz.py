@@ -273,9 +273,10 @@ def testAndCheck():  ### Monitor for one dongle
 
     t1 = time.time()
     timeout = 5  ##  Test for 5 seconds
+    time.sleep(0.025)
 
     d1.setModeTX()  # Enter the right mode first...
-    time.sleep(0.025)
+
     d1.RFxmit(invert(nop))
 
     d1.setModeIDLE()  # WITHOUT THIS YOU WILL GET USB TIMEOUTS!
@@ -352,7 +353,10 @@ def testAndCheck():  ### Monitor for one dongle
             pass
         except KeyboardInterrupt:
             d1.setModeIDLE()
-            return
+            device_State = 100
+            return device_State
+            # break
+            # return
 
         except Exception, e:  ## catch error
             d1.setModeIDLE()  ### Avoid USB TIMEOUT
@@ -592,6 +596,9 @@ def mutate(homeid, nodeid, verb, dongle1, dongle2):
                     test = None
                     # time.sleep(0.025)
 
+                elif test is 100:
+                    print
+                    print("User Interruption (Ctrl +C)! Exiting ...")
                 else:
                     ercount = ercount + 1
 
@@ -608,12 +615,15 @@ def mutate(homeid, nodeid, verb, dongle1, dongle2):
     except ChipconUsbTimeoutException:
         pass
     except KeyboardInterrupt:
+        d1.setModeTX()
+        d1.setModeIDLE()
         print
         print("[!] Exiting...")
         print("[!] Please Reset RF Dongle !")
         return
 
     except Exception as e:
+        d1.setModeIDLE()
         print ("Error Found !")
         print(e)
-        sys.exit(0)
+        sys.exit(1)  ## exit(1) means there was some issue/error/problem

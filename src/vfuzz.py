@@ -1,5 +1,5 @@
 # coding=utf-8
-#!env python
+# !env python
 """
     The program VFuzz-Public is a fuzzer targeting Z-WaVe Protocol that helps find devices vulnerabilities.
 
@@ -40,6 +40,7 @@ from sys import exit
 from src.vfuzz_fuzz import mutate, fuzzing_summary
 from src.initialTest import initialTestingPhase
 import fuzzer_config
+
 # from rflib import *
 
 try:
@@ -55,22 +56,20 @@ except ImportError:
 
 ## RF Dongles variables
 
-global d1,d2 ## Yardstick dongles
+global d1, d2  ## Yardstick dongles
 global homeID, nodeID
 
-d1= None
-d2= None
+d1 = None
+d2 = None
 fileout = 0
-homeID = None ## Z-Wave Home ID init
-nodeID = None ## Z-Wave Target Node ID init
+homeID = None  ## Z-Wave Home ID init
+nodeID = None  ## Z-Wave Target Node ID init
 
 ## Fuzzer Timeout from ./fuzzer_config.py
 timeoutFuzzer = fuzzer_config.timeoutFuzzer
 
 ## Clear Screen at start
-clearScreen1 =sp.call('clear', shell=True)
-
-
+clearScreen1 = sp.call('clear', shell=True)
 
 
 def help():
@@ -99,6 +98,9 @@ def handle_exit():
     global d1, d2
     try:
         print('\n[*] VFuzz normally stopped\n')
+        cleanupDongle(d1)
+        # cleanupDongle(d2)
+        # exit(0)
         return
     except Exception as e:
         print ("Error Found !")
@@ -106,6 +108,7 @@ def handle_exit():
         cleanupDongleFinal(d1)
         cleanupDongleFinal(d2)
         return
+
 
 """ Handle  at Exit"""
 atexit.register(handle_exit)
@@ -120,6 +123,7 @@ def clearScreen():
         _ = os.system('cls')
     return
 
+
 def cleanupDongleFinal(d):
     global d1, d2
     if d == None:
@@ -133,35 +137,33 @@ def cleanupDongleFinal(d):
     return
 
 
-
 def cleanupDongle(d):
     global d1, d2
     time.sleep(.125)
     if d == None:
         pass
     else:
-
-        # Resetting the Dongle
-        d.setModeIDLE()
-        # d.cleanup()
-        # d.RESET()
-
+        try:
+            # Resetting the Dongle
+            d.setModeTX()
+            # d.setModeIDLE()
+            d.setModeIDLE()
+            # d.cleanup()
+            # d.RESET()
+        except ChipconUsbTimeoutException:
+            pass
     return
 
 
-
-def radioDongleConfig(dongle1,dongle2):
+def radioDongleConfig(dongle1, dongle2):
     # RF Dongle variables Global Variables
     global d1, d2
-    d1= dongle1
+    d1 = dongle1
     d2 = dongle2
-    zwaveFrequency= fuzzer_config.zwaveFrequency
-
+    zwaveFrequency = fuzzer_config.zwaveFrequency
 
     d1 = RfCat(0, debug=False)
     d2 = None
-
-
 
     try:
         """Configuring Dongle 1"""
@@ -182,7 +184,7 @@ def radioDongleConfig(dongle1,dongle2):
         d1.setModeIDLE()
         return
 
-    except Exception, e:   # work on python 2.x
+    except Exception, e:  # work on python 2.x
         print("Connect RF Dongles 1")
         print("Error: " + str(e))
         cleanupDongleFinal(d1)
@@ -193,8 +195,9 @@ def radioDongleConfig(dongle1,dongle2):
         print ("\nUser Interruption !\nProgram will Exit...\n")
         cleanupDongleFinal(d1)
         cleanupDongleFinal(d2)
+    except ChipconUsbTimeoutException:
+        pass
     return
-
 
 
 def check_Hex_ValueHomeID(data):
@@ -205,7 +208,7 @@ def check_Hex_ValueHomeID(data):
 
             return
         else:
-            print ("[!] " +str(data) +" is Not a valid Hexadecimal Z-Wave HomeID , please try again... \n")
+            print ("[!] " + str(data) + " is Not a valid Hexadecimal Z-Wave HomeID , please try again... \n")
             cleanupDongle(d1)
             # cleanupDongle(d2)
             sys.exit(1)
@@ -224,29 +227,28 @@ def check_Hex_ValueHomeID(data):
 
 
 def check_Hex_ValueNodeID(data):
+    try:
 
-        try:
-
-            data = int_to_string_without_0x(data)
-            if all(d in string.hexdigits for d in data) and len(data.decode("hex")) == 1:
-                return
-            else:
-                print("[!] " +str(data) +" is Not a valid Hexadecimal Z-Wave NodeID, please try again... \n")
-                cleanupDongle(d1)
-                # cleanupDongle(d2)
-                sys.exit(1)
-        except KeyboardInterrupt:
-            print("\n[!]" +str(data) +" is User interruption! Exiting ... Please RESET Radio Dongle \n")
+        data = int_to_string_without_0x(data)
+        if all(d in string.hexdigits for d in data) and len(data.decode("hex")) == 1:
+            return
+        else:
+            print("[!] " + str(data) + " is Not a valid Hexadecimal Z-Wave NodeID, please try again... \n")
             cleanupDongle(d1)
             # cleanupDongle(d2)
             sys.exit(1)
-        except Exception as e:
-            print str(e)
-            cleanupDongle(d1)
-            # cleanupDongle(d2)
-            print ("Error found! Exiting...")
-            sys.exit(1)
-        return
+    except KeyboardInterrupt:
+        print("\n[!]" + str(data) + " is User interruption! Exiting ... Please RESET Radio Dongle \n")
+        cleanupDongle(d1)
+        # cleanupDongle(d2)
+        sys.exit(1)
+    except Exception as e:
+        print str(e)
+        cleanupDongle(d1)
+        # cleanupDongle(d2)
+        print ("Error found! Exiting...")
+        sys.exit(1)
+    return
 
 
 def int_to_string_without_0x(data):
@@ -254,8 +256,8 @@ def int_to_string_without_0x(data):
     data = hex(data)
     ## Removing leading 0x and convert to Hex
     data = data[2:]
-    if len(data) ==1:
-        data = "0"+ data
+    if len(data) == 1:
+        data = "0" + data
     return data
 
 
@@ -293,6 +295,7 @@ def display():
 
     return
 
+
 def main():
     global d1, d2
     global homeID, nodeID
@@ -325,12 +328,9 @@ def main():
             else:
                 pass
 
-
     """Dongles Configuration"""
-    radioDongleConfig(d1,d2)
+    radioDongleConfig(d1, d2)
     clearScreen()
-
-
 
     try:
         homeID = fuzzer_config.homeid
@@ -348,8 +348,12 @@ def main():
 
     except KeyboardInterrupt:
         print("\n[!] User interruption! Exiting ... Please RESET Radio Dongle \n")
+        # d.setModeIDLE()
         cleanupDongle(d1)
         cleanupDongle(d2)
+        # exit()
+    except ChipconUsbTimeoutException:
+        pass
 
     cleanupDongle(d1)
     cleanupDongle(d2)

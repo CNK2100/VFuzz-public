@@ -8,7 +8,7 @@ This is the configuration file for VFuzz.
 homeid =0xCB95A34A
 
 # Z-Wave Target device node ID in Hexadecimal
-nodeid =0x02 
+nodeid =0x16 ## 0x16 = 22 in decimal
 
 # Z-Wave Frequency used. Select your devices frequency and comment remaining
 zwaveFrequency = 908420000  ### FOR USA
