@@ -1,4 +1,4 @@
 Log of Last received ACK from Target device while sending Z-Wave NOP frame
-Raw ACK Value: cb95a34a1603010a0157
-ACK_No: 31  |  Timestp: 2022-06-02 15:56:28  |  HomeID: cb95a34a  |  Src: 16  |  Dst: 01  |  CRC: 57
+Raw ACK Value: edc87ee40f03010a0146
+ACK_No: 177  |  Timestp: 2023-01-26 15:15:55  |  HomeID: edc87ee4  |  Src: 0f  |  Dst: 01  |  CRC: 46
 -----------------------------------------------------------------------------------------------------------------------------------------------------
