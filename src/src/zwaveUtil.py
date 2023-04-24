@@ -1,3 +1,5 @@
+import time
+
 
 class ZwavePacket:  # Z-Wave basic packet
     global homeID
@@ -14,8 +16,8 @@ class ZwavePacket:  # Z-Wave basic packet
         self.length = 0x0C
         self.dst = 0xff
         self.cmdClass = 0x25  # COMMAND_CLASS_SWITCH_BINARY: 0x25
-        self.cmd = 0x01        # COMMAND : SWITCH_BINARY_SET: 0x01
-        self.value = 0xff      # Switch Value: FF == ON  and value : OO == OFF
+        self.cmd = 0x01  # COMMAND : SWITCH_BINARY_SET: 0x01
+        self.value = 0xff  # Switch Value: FF == ON  and value : OO == OFF
         self.value1 = 0x00
         self.value2 = 0x00
         self.value3 = 0x00
@@ -28,17 +30,17 @@ class ZwavePacket:  # Z-Wave basic packet
         self.crc = 0x15
 
     def validPacket(self):
-         self.crc != 0
+        self.crc != 0
 
     def getHeader(self):
-            return self.header
+        return self.header
 
     def setHeader(self, header):
         self.header = header
 
     def getHomeID(self):
         # x = int(self.homeId)
-        return  self.homeID
+        return self.homeID
 
     def setHomeID(self, homeId):
         self.homeID = homeId
@@ -51,7 +53,6 @@ class ZwavePacket:  # Z-Wave basic packet
     def setSrc(self, sourceId):
         # self.sourceId = sourceId
         self.src = sourceId
-
 
     def getFrameControl_1(self):
         return self.frameControl_1
@@ -135,7 +136,7 @@ class ZwavePacket:  # Z-Wave basic packet
         return self.value7
 
     def setValue7(self, value7):
-        self.value7= value7
+        self.value7 = value7
 
     def getValue8(self):
         return self.value8
@@ -149,7 +150,6 @@ class ZwavePacket:  # Z-Wave basic packet
     def setCrc(self, crc):
         self.crc = crc
 
-
     def __str__(self):
         """
         Human readable string representation of the Z-Wave packet
@@ -160,18 +160,18 @@ class ZwavePacket:  # Z-Wave basic packet
             # return "Net:%s Src:%s FC:%s FC2:%s Len:%s Dst:%s CmdCl:%s Cmd:%s Pld:%s%s%s%s%s%s%s%s%s Crc:%s" % \
             return "N:%s S:%s FC:%s%s L:%s D:%s Pld:%s%s%s%s%s%s%s%s%s%s%s C:%s" % \
                 (hex(self.homeID), hex(self.src), hex(self.frameControl_1), hex(self.frameControl_2), \
-                hex(self.length), hex(self.dst), hex(self.cmdClass), hex(self.cmd), hex(self.value),\
-                hex(self.value1), hex(self.value2), hex(self.value3), hex(self.value4), hex(self.value5),\
-                hex(self.value6), hex(self.value7), hex(self.value8), hex(self.crc))
+                 hex(self.length), hex(self.dst), hex(self.cmdClass), hex(self.cmd), hex(self.value), \
+                 hex(self.value1), hex(self.value2), hex(self.value3), hex(self.value4), hex(self.value5), \
+                 hex(self.value6), hex(self.value7), hex(self.value8), hex(self.crc))
         except KeyboardInterrupt:
             exit(0)
         except UnicodeDecodeError:
             return u'Home ID: %s Source ID: %s FC1: %s FC2: %s Length: %s Dst: %s CmdCl: %s Cmd: %s Val: %s Crc: %s' % \
-                   (format(self.homeID, '02x').decode("hex"), format(self.src, '02x').decode("hex"), \
-                    format(self.frameControl_1, '02x').decode("hex"), format(self.frameControl_2, '02x').decode("hex"), \
-                    format(self.length, '02x').decode("hex"), format(self.dst, '02x').decode("hex"), \
-                    format(self.cmdClass, '02x').decode("hex"), format(self.cmd, '02x').decode("hex"), format(
-                       self.value, '02x').decode("hex"), format(self.crc, '02x').decode("hex"))
+                (format(self.homeID, '02x').decode("hex"), format(self.src, '02x').decode("hex"), \
+                 format(self.frameControl_1, '02x').decode("hex"), format(self.frameControl_2, '02x').decode("hex"), \
+                 format(self.length, '02x').decode("hex"), format(self.dst, '02x').decode("hex"), \
+                 format(self.cmdClass, '02x').decode("hex"), format(self.cmd, '02x').decode("hex"), format(
+                    self.value, '02x').decode("hex"), format(self.crc, '02x').decode("hex"))
 
     def pktTostr(self):
         """
@@ -180,20 +180,17 @@ class ZwavePacket:  # Z-Wave basic packet
         """
         try:
             return format(self.homeID, '02x').decode("hex") + format(self.src, '02x').decode("hex") + \
-                   format(self.frameControl_1, '02x').decode("hex") + format(self.frameControl_2, '02x').decode("hex") + \
-                   format(self.length, '02x').decode("hex") + format(self.dst, '02x').decode("hex") + \
-                   format(self.cmdClass, '02x').decode("hex") + format(self.cmd, '02x').decode("hex") + \
-                   format(self.value, '02x').decode("hex") + format(self.value1, '02x').decode("hex") + \
-                   format(self.value2, '02x').decode("hex") + format(self.value3, '02x').decode("hex") + \
-                   format(self.value4, '02x').decode("hex") + format(self.value5, '02x').decode("hex") +\
-                   format(self.value6, '02x').decode("hex") + format(self.value7, '02x').decode("hex") + \
-                   format(self.value8, '02x').decode("hex") +format(self.crc, '02x').decode("hex")
+                format(self.frameControl_1, '02x').decode("hex") + format(self.frameControl_2, '02x').decode("hex") + \
+                format(self.length, '02x').decode("hex") + format(self.dst, '02x').decode("hex") + \
+                format(self.cmdClass, '02x').decode("hex") + format(self.cmd, '02x').decode("hex") + \
+                format(self.value, '02x').decode("hex") + format(self.value1, '02x').decode("hex") + \
+                format(self.value2, '02x').decode("hex") + format(self.value3, '02x').decode("hex") + \
+                format(self.value4, '02x').decode("hex") + format(self.value5, '02x').decode("hex") + \
+                format(self.value6, '02x').decode("hex") + format(self.value7, '02x').decode("hex") + \
+                format(self.value8, '02x').decode("hex") + format(self.crc, '02x').decode("hex")
 
         except KeyboardInterrupt:
             exit(0)
-
-
-
 
     ### Checksum Generation for Hex data
     def calculateChecksum(self, data):
@@ -203,24 +200,27 @@ class ZwavePacket:  # Z-Wave basic packet
         return checksum
 
     ## Checksum generation for String data
-    def checksum(self, data):
+    def checksum_2(self, data):
         b = 255
         for i in range(2, len(data)):
             b ^= int(data[i].encode("hex"), 16)
-        # print "	-> Checksum :",format(b, '02x')
+        print "	-> Checksum :", format(b, '02x')
         return format(b, '02x').decode("hex")
 
     def postbuild_Pkt(self):
+        # Header: PRE + SOF
+        init = "\x00\x0E"
+        header = "\x41\x01"
 
         ## Encording packet field to Hex string without 0x prefix
         _homeid = format(self.homeID, '02x').decode("hex")
         _src = format(self.src, '02x').decode("hex")
         _fc1 = format(self.frameControl_1, '02x').decode("hex")
-        _fc2 = format(self.frameControl_2,"02x").decode("hex")
+        _fc2 = format(self.frameControl_2, "02x").decode("hex")
         _dst = format(self.dst, "02x").decode("hex")
-        _cmdClass= format(self.cmdClass, "02x").decode("hex")
-        _cmd  = format(self.cmd, "02x").decode("hex")
-        _val  = format(self.value, "02x").decode("hex")
+        _cmdClass = format(self.cmdClass, "02x").decode("hex")
+        _cmd = format(self.cmd, "02x").decode("hex")
+        _val = format(self.value, "02x").decode("hex")
         _val1 = format(self.value1, "02x").decode("hex")
         _val2 = format(self.value2, "02x").decode("hex")
         _val3 = format(self.value3, "02x").decode("hex")
@@ -230,23 +230,34 @@ class ZwavePacket:  # Z-Wave basic packet
         _val7 = format(self.value7, "02x").decode("hex")
         _val8 = format(self.value8, "02x").decode("hex")
 
-
         ## Generate Valid Length
         ### _len value is integer
-        _len = len(_homeid) + len(_src) + len(_fc1) + len(_fc2) + len(_dst) + len(_cmdClass) + len(_cmd) + len(_val) +\
-               len(_val1) + len(_val2) +  len(_val3) +  len(_val4) +  len(_val5) +  len(_val6)+ +  len(_val7) +\
-               len(_val8) + 2 ### 2 = len(lenght field) + len( crc field)
+        _len = len(_homeid) + len(_src) + len(_fc1) + len(_fc2) + len(_dst) + len(_cmdClass) + len(_cmd) + len(_val) + \
+               len(_val1) + len(_val2) + len(_val3) + len(_val4) + len(_val5) + len(_val6) + len(_val7) + \
+               len(_val8) + 2  ### 2 = len(lenght field) + len( crc field)
+        ### + 4 : + src(1) + len(1) + dst (1)  + checksum (1)
+        # print
+        # print(" Length is : " + str(_len) )
         self.setLength(_len)
         ### convert _len to Hexadecimal string  without 0x prefix
-        _lenHex =  format(_len, '02x').decode("hex")
+        _lenHex = format(_len, '02x').decode("hex")
         _lenght = _len
         #### Concatenate Z-Wave packet String Hex field
-        pkt= _homeid+ _src + _fc1 + _fc2 + _lenHex + _dst + _cmdClass + _cmd + _val + _val1+\
-             _val2 + _val3 + _val4 + _val5 + _val6 + _val7 + _val8
+        # _init = format(init, "02x").encode("hex")
+        _init = "\x00\x0E"
+        pkt_Updated = _homeid + _src + _fc1 + _fc2 + _lenHex + _dst + _cmdClass + _cmd + _val + _val1 + \
+                      _val2 + _val3 + _val4 + _val5 + _val6 + _val7 + _val8
 
         ### Generate Checksum
-        _crc = self.calculateChecksum(pkt)
+        _crc = self.calculateChecksum(pkt_Updated)
+
         ## Set CRC to Packet
+        # print("Checksum is : " + str(_crc))
         self.setCrc(_crc)
-        ### return the Hex String representation of a packet instance
-        return  self.pktTostr()
+        # pkt_Updated_full = _homeid+ _src + _fc1 + _fc2 + _lenHex + _dst + _cmdClass + _cmd + _val + _val1+\
+        #      _val2 + _val3 + _val4 + _val5 + _val6 + _val7 + _val8 + format(self.crc, "02x").decode("hex")
+
+        # print("The full packet is :" +self.pktTostr().encode("hex"))
+        time.sleep(0.25)
+        ### !!! Sometimes you will have CRC_ERROR due to radio noise  as you use one YST dongle !!! just skip that
+        return self.pktTostr()  ### WORKING

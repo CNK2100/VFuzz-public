@@ -111,7 +111,7 @@ def handle_exit():
 
 
 """ Handle  at Exit"""
-atexit.register(handle_exit)
+# atexit.register(handle_exit)
 
 
 def clearScreen():

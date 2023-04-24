@@ -190,11 +190,12 @@ def send_vfuzz(pkt):
     global d_init, d_header
     try:
         # for _ in range(3):
-        for _ in range(1):
+        for _ in range(3):
             # d1.setModeTX()  # enter the correct mode first
             d1.RFxmit(invert(pkt))
+            time.sleep(0.025)
             d1.setModeIDLE()  # DO THIS TO AVOID TIMEOUTS!
-            # time.sleep(0.025)
+            time.sleep(0.025)
         return
 
     except KeyboardInterrupt:
@@ -566,13 +567,16 @@ def mutate(homeid, nodeid, verb, dongle1, dongle2):
             print ("\n    [*][*] Testcase: " + testcase)
 
             while test is not True and time.time() - t1 < testModetime and time.time() - start_time_all < timeoutFuzzer:
+            # while True:
                 i += 1
                 txcount = i
 
                 ### Testcase ZW_T1 Mutates All field for VFuzz-Public version
-                pkt.setSrc(random.randint(0, 255))
+                # pkt.setSrc(random.randint(0, 255))
+
                 pkt.setFrameControl_1(0x41)
                 pkt.setFrameControl_2(0x01)
+                pkt.setSrc(0xC8)  ### Equals 200  in decimal
                 pkt.setCmdClass(random.randint(0, 255))
                 pkt.setCmd(random.randint(0, 255))
                 pkt.setValue(random.randint(0, 255))
@@ -583,6 +587,8 @@ def mutate(homeid, nodeid, verb, dongle1, dongle2):
                 pkt.setValue5(random.randint(0, 255))
                 pkt.setValue6(random.randint(0, 255))
                 pkt.setValue7(random.randint(0, 255))
+                pkt.setValue8(random.randint(0, 255))
+
                 """Device Testing"""
                 test = None
                 # time.sleep(0.025)## remove
@@ -590,9 +596,16 @@ def mutate(homeid, nodeid, verb, dongle1, dongle2):
                 test = testAndCheck()  ## For one dongle
                 # time.sleep(0.025)
                 if test is False:
-                    send_vfuzz(pkt.postbuild_Pkt())
+                    pkt_final = pkt.postbuild_Pkt()
+                    time.sleep(0.25)
+                    ### !!! Sometimes you will have CRC_ERROR due to radio noise
+                    # ## Because you use one YST dongle to transmit and receive !!! just skip that
+                    send_vfuzz(pkt_final)
+                    # send_vfuzz(pkt.postbuild_Pkt())
                     console_output_function(txcount, testcase, str(pkt), _verbose_vfuzz)
                     save_log_funtion(txcount, str(pkt), testcase, is_crash)
+                    time.sleep(0.25)
+                    d1.setModeIDLE()
                     test = None
                     # time.sleep(0.025)
 
