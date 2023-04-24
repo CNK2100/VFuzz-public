@@ -580,7 +580,9 @@ def mutate(homeid, nodeid, verb, dongle1, dongle2):
                 ### Testcase ZW_T1 Mutates All field for VFuzz-Public version
                 # pkt.setSrc(random.randint(0, 255))
 
-                pkt.setFrameControl_1(0x41)
+                # pkt.setFrameControl_1(0x41)  ### get ACK from target device
+                pkt.setFrameControl_1(0x11)  ## 0x11  NO ACK || 0x31 for NO ACK ||  0x41 0x51 0x71 0x61
+
                 pkt.setFrameControl_2(0x01)
                 pkt.setSrc(0xC8)  ### Equals 200  in decimal
                 pkt.setCmdClass(random.randint(0, 255))
