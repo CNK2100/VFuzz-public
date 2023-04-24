@@ -190,7 +190,7 @@ def send_vfuzz(pkt):
     global d_init, d_header
     try:
         # for _ in range(3):
-        for _ in range(3):
+        for _ in range(2):
             # d1.setModeTX()  # enter the correct mode first
             d1.RFxmit(invert(pkt))
             time.sleep(0.025)
@@ -276,15 +276,20 @@ def testAndCheck():  ### Monitor for one dongle
     timeout = 5  ##  Test for 5 seconds
     time.sleep(0.025)
 
-    d1.setModeTX()  # Enter the right mode first...
+    """ Do not use d1.setModeTX()  because it will send random packet and 
+            flag a CRC ERROR in Sniffer programe """
+    # d1.setModeTX()  # DO NOT USE THIS IT WILL FLAG AN CRC ERROR in sniffer programme
+    ## due to random packet that it is transmitting
+    ##
 
-    d1.RFxmit(invert(nop))
+    # d1.RFxmit(invert(nop))
 
     d1.setModeIDLE()  # WITHOUT THIS YOU WILL GET USB TIMEOUTS!
 
     while time.time() - t1 < timeout:
         # while True:
-        # time.sleep(0.025)
+        d1.setModeIDLE()
+        time.sleep(0.050)
 
         try:
             global frame_nb
@@ -340,6 +345,7 @@ def testAndCheck():  ### Monitor for one dongle
                     is_crash = False
                     device_State = False
                     # return device_State
+                    d1.setModeIDLE()
                     break
                 elif deviceAck == None:
                     logInterestingTestcase = open("logs/interestingTestCase.txt", "w")
@@ -612,6 +618,7 @@ def mutate(homeid, nodeid, verb, dongle1, dongle2):
                 elif test is 100:
                     print
                     print("User Interruption (Ctrl +C)! Exiting ...")
+                    break
                 else:
                     ercount = ercount + 1
 

@@ -236,6 +236,7 @@ class ZwavePacket:  # Z-Wave basic packet
                len(_val1) + len(_val2) + len(_val3) + len(_val4) + len(_val5) + len(_val6) + len(_val7) + \
                len(_val8) + 2  ### 2 = len(lenght field) + len( crc field)
         ### + 4 : + src(1) + len(1) + dst (1)  + checksum (1)
+
         # print
         # print(" Length is : " + str(_len) )
         self.setLength(_len)
