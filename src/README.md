@@ -13,13 +13,13 @@ Fuzzing throughput has been reduced as the version runs on ONE YardStick One
 dongle.
 Mutation operators have been reduced to Random ONLY.
 
-
+## Supported dongles:
 >Hardware:
 
 VFuzz-Public runs on YardStick One (https://greatscottgadgets.com/yardstickone/)
 or Any sub-gigahertz dongle supporting RFCat library.
 
->Requirements:
+## Requirements:
 
 ```
 sudo apt-get update
@@ -43,19 +43,19 @@ pip install requests
 sudo apt install sdcc
 ```
 
-
+## Installation 
 >Install RFCAT at https://github.com/atlas0fd00m/rfcat
 
 
 
 
->Run VFuzz:
+## Run VFuzz:
 
 ```
 sudo python ./vfuzz.py
 ```
 
->STOP VFUZZ:
+## STOP VFUZZ:
 
 ```
 CTRL + Z
