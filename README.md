@@ -4,6 +4,11 @@
 
 VFuzz is a fuzzing approach for finding vulnerabilities in the Z-Wave smart home devices. VFuzz found flaws in  major Z-Wave chipsets series. These vulnerabilities allow an attacker to inject malicious Z-Wave packets that can control, impersonate, or cause a denial-of-service (DoS) on vulnerable devices. A DoS on the Z-Wave controller can disable intrusion and event notifications to the remote house owner resulting in illegal house access without the security systems being activated.
 
+## For the academic/public use, the researcher MUST cite the following papers:
+
+1. C. K. Nkuba, S. Kim, S. Dietrich and H. Lee, "Riding the IoT Wave With VFuzz: Discovering Security Flaws in Smart Homes," in IEEE Access, vol. 10, pp. 1775-1789, 2022, doi: 10.1109/ACCESS.2021.3138768.
+2. C. K. Nkuba, S. Woo, H. Lee, and S. Dietrich, "ZMAD: Lightweight Model-based Anomaly Detection for the Structured Z-Wave Protocol," in IEEE Access, 2023.
+
 ## Impact
 
 Depending on the chipset and device, an attacker within Z-Wave radio range can deny service, cause devices to crash, deplete batteries, intercept, observe, and replay traffic, and control vulnerable devices.
