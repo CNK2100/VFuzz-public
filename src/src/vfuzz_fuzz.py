@@ -298,7 +298,7 @@ def testAndCheck():  ### Monitor for one dongle
             # fileout = 1
             d1.RFxmit(invert(nop))
             d1.setModeRX()
-            deviceAck = d1.RFrecv(11)[0]
+            deviceAck = d1.RFrecv(11)[0] # Get 11 Bytes. ACK frame is 10 bytes.
             # print("\nBrut ACK: " + deviceAck)
             # print("\nBrut Converted into hex: " + deviceAck.encode("hex"))
 
