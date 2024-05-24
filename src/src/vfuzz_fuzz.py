@@ -277,8 +277,8 @@ def testAndCheck():  ### Monitor for one dongle
     time.sleep(0.025)
 
     """ Do not use d1.setModeTX()  because it will send random packet and 
-            flag a CRC ERROR in Sniffer programe """
-    # d1.setModeTX()  # DO NOT USE THIS IT WILL FLAG AN CRC ERROR in sniffer programme
+            flag a CRC ERROR in Sniffer program """
+    # d1.setModeTX()  # DO NOT USE THIS IT WILL FLAG AN CRC ERROR in sniffer program
     ## due to random packet that it is transmitting
     ##
 
@@ -298,11 +298,11 @@ def testAndCheck():  ### Monitor for one dongle
             # fileout = 1
             d1.RFxmit(invert(nop))
             d1.setModeRX()
-            deviceAck = d1.RFrecv(10)[0]
+            deviceAck = d1.RFrecv(11)[0]
             # print("\nBrut ACK: " + deviceAck)
             # print("\nBrut Converted into hex: " + deviceAck.encode("hex"))
 
-            d1.setModeIDLE()
+            # d1.setModeIDLE()
             deviceAck = invert(deviceAck)
             # print("\nAfter inversion: " + deviceAck)
             # print("\n After inversion Converted into hex: " + deviceAck.encode("hex"))
@@ -637,7 +637,7 @@ def mutate(homeid, nodeid, verb, dongle1, dongle2):
     except ChipconUsbTimeoutException:
         pass
     except KeyboardInterrupt:
-        d1.setModeTX()
+        # d1.setModeTX()
         d1.setModeIDLE()
         print
         print("[!] Exiting...")
