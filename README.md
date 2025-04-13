@@ -51,6 +51,6 @@ We also advise house owners to have a diversified set of smart home devices with
 
 The VFuzz public version WILL provide source code for core Z-Wave fuzzing functionalities while reducing advanced features that could be misused by bad actors to attack smart home devices. For the same ethical considerations, we are not releasing the VFuzz PoC exploit code.
 
-##About
+## About
 
 This repository is maintained by Carlos Nkuba. For reporting bugs, you can submit an issue to the GitHub repository.
